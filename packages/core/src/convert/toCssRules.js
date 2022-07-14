@@ -72,7 +72,7 @@ export const toCssRules = (
 							continue
 						}
 					}
-					// otherwise, if the left-hand "name" matches a configured polyfill
+						// otherwise, if the left-hand "name" matches a configured polyfill
 					// conditionally transform the current data using the polyfill
 					else if (camelName in toPolyfilledValue) {
 						const poly = toPolyfilledValue[camelName]
@@ -108,7 +108,7 @@ export const toCssRules = (
 						currentRule = undefined
 
 						walk(data, nextSelections, nextConditions)
-					} else if (Array.isArray(data)) {
+					} else if (Array.isArray(data) && name in colorProps) {
 						const themes = ['.light', '.dark']
 
 						themes.forEach((theme, index) => {
@@ -117,15 +117,6 @@ export const toCssRules = (
 							const nextSelectors = selectors.map((selector) => `${theme} ${selector}`)
 							walk(schema, nextSelectors, conditions)
 						})
-
-						// [].forEach.call(data, (item) => {
-						// 	const schema = { [name]: item }
-						//
-						// 	themes.forEach((theme) => {
-						// 		const nextSelectors = selectors.map((selector) => `${theme} ${selector}`)
-						// 		walk(schema, nextSelectors, conditions)
-						// 	})
-						// })
 					} else {
 						if (currentRule === undefined) currentRule = [[], selectors, conditions]
 
@@ -136,17 +127,17 @@ export const toCssRules = (
 						data = (
 							// preserve object-like data
 							isRuleLike ? data
-							// replace specially-marked numeric property values with pixel versions
-							: typeof data === 'number'
-								? data && camelName in unitProps
-									? String(data) + 'px'
-								: String(data)
-							// replace tokens with stringified primitive values
-							: toTokenizedValue(
-								toSizingValue(camelName, data == null ? '' : data),
-								config.prefix,
-								config.themeMap[camelName]
-							)
+								// replace specially-marked numeric property values with pixel versions
+								: typeof data === 'number'
+									? data && camelName in unitProps
+										? String(data) + 'px'
+										: String(data)
+									// replace tokens with stringified primitive values
+									: toTokenizedValue(
+										toSizingValue(camelName, data == null ? '' : data),
+										config.prefix,
+										config.themeMap[camelName]
+									)
 						)
 
 						currentRule[0].push(`${isAtRuleLike ? `${name} ` : `${toHyphenCase(name)}:`}${data}`)
@@ -303,4 +294,35 @@ export const unitProps = {
 	verticalAlign: 1,
 	width: 1,
 	wordSpacing: 1,
+}
+
+const colorProps = {
+	background: 1,
+	backgroundColor: 1,
+	backgroundImage: 1,
+	borderImage: 1,
+	border: 1,
+	borderBlock: 1,
+	borderBlockEnd: 1,
+	borderBlockStart: 1,
+	borderBottom: 1,
+	borderBottomColor: 1,
+	borderColor: 1,
+	borderInline: 1,
+	borderInlineEnd: 1,
+	borderInlineStart: 1,
+	borderLeft: 1,
+	borderLeftColor: 1,
+	borderRight: 1,
+	borderRightColor: 1,
+	borderTop: 1,
+	borderTopColor: 1,
+	caretColor: 1,
+	color: 1,
+	columnRuleColor: 1,
+	fill: 1,
+	outline: 1,
+	outlineColor: 1,
+	stroke: 1,
+	textDecorationColor: 1,
 }
