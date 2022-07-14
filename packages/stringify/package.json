@@ -1,6 +1,6 @@
 {
   "name": "stitches-worx-stringify",
-  "version": "1.2.15",
+  "version": "1.2.16",
   "description": "Converts an object into CSS",
   "type": "module",
   "main": "dist/index.cjs",
