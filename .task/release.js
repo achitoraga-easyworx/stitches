@@ -48,10 +48,6 @@ const main = async () => {
 
 	await cp.spawn('npm', ['run', 'build'], { stdio: 'ignore' })
 
-	state.otp = await rl.question(`OTP:`)
-
-	if (!state.otp) return
-
 	for (const workspacepkgpath of workspacepkgpaths) {
 		await cp.spawn('git', ['add', workspacepkgpath.ospathname])
 	}
@@ -61,7 +57,7 @@ const main = async () => {
 	await cp.spawn('git', ['push'])
 	await cp.spawn('git', ['push', '--tags'])
 
-	await cp.spawn('npm', ['publish', '--tag', state.npmtag, '--workspaces', '--otp', state.otp])
+	await cp.spawn('npm', ['publish', '--tag', state.npmtag, '--workspaces'])
 }
 
 main()

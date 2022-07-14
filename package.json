@@ -1,6 +1,6 @@
 {
   "$schema": "./.vscode/package.schema.json",
-  "name": "stitches",
+  "name": "stitches-worx",
   "type": "module",
   "license": "MIT",
   "contributors": [

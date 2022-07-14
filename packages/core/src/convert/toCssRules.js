@@ -53,7 +53,7 @@ export const toCssRules = (
 
 				for (data of datas) {
 					const camelName = toCamelCase(name)
-					
+
 					/** Whether the current data represents a nesting rule, which is a plain object whose key is not already a util. */
 					const isRuleLike = typeof data === 'object' && data && data.toString === toStringOfObject && (!config.utils[camelName] || !selectors.length)
 
@@ -108,6 +108,24 @@ export const toCssRules = (
 						currentRule = undefined
 
 						walk(data, nextSelections, nextConditions)
+					} else if (Array.isArray(data)) {
+						const themes = ['.light', '.dark']
+
+						themes.forEach((theme, index) => {
+							const schema = { [name]: data[index] ?? data[0] }
+
+							const nextSelectors = selectors.map((selector) => `${theme} ${selector}`)
+							walk(schema, nextSelectors, conditions)
+						})
+
+						// [].forEach.call(data, (item) => {
+						// 	const schema = { [name]: item }
+						//
+						// 	themes.forEach((theme) => {
+						// 		const nextSelectors = selectors.map((selector) => `${theme} ${selector}`)
+						// 		walk(schema, nextSelectors, conditions)
+						// 	})
+						// })
 					} else {
 						if (currentRule === undefined) currentRule = [[], selectors, conditions]
 
