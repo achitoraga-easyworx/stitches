@@ -1,6 +1,6 @@
 {
   "name": "stitches-worx-react",
-  "version": "1.2.20",
+  "version": "1.2.21",
   "description": "The modern CSS-in-JS library",
   "type": "module",
   "main": "dist/index.cjs",
